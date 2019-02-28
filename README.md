@@ -1,8 +1,8 @@
 # Dataset
 
-**Fashion Landmark Images** - The img_landmark folder contains a subset of images from The Chinese University of Hong Kong's Fashion Landmark Dataset.
+**Fashion Landmark Images** - The img_landmark folder contains a subset of images from The Chinese University of Hong Kong's Fashion Landmark Dataset. To full dataset has ~120,000 images. 
 
-**Forever21 Images** - The f21 folder contains additional clothing images I compiled by scraping the retailer's website. 
+**Forever21 Images** - The f21 folder contains ~2,000 additional clothing images I compiled by scraping the retailer's website. 
 
 # References
 
