@@ -1,3 +1,8 @@
+# Dataset
+
+**Fashion Landmark Images** - The img_landmark folder contains a subset of images from The Chinese University of Hong Kong's Fashion Landmark Dataset.
+**Forever21 Images** - The f21 folder contains additional clothing images I compiled by scraping the retailer's website. 
+
 # References
 
 Liu, Ziwei, et al. "Fashion landmark detection in the wild." European Conference on Computer Vision. Springer, Cham, 2016.
