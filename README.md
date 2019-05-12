@@ -4,6 +4,29 @@
 
 **Forever21 Images** - The f21 folder contains ~2,000 additional clothing images I compiled by scraping the retailer's website. 
 
+# File Structure
+
+```
+README.md
+data
+├── img
+│   ├── folders
+fashion
+├── __init__.py
+requirements.txt
+src
+├── exploration
+│   ├── exploration_attributes.ipynb
+│   └── exploration_landmark.ipynb
+├── processing
+│   ├── crawl.py
+│   └── utils.py
+└── scraper
+    ├── full_scraper.py
+    ├── scraper.ipynb
+    └── scraper.py
+```
+
 # References
 
 Forever21 - https://www.forever21.com/us/shop
