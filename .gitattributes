@@ -1,2 +1,0 @@
-img_landmark/*.jpg filter=lfs diff=lfs merge=lfs -text
-f21/*/img/*.jpg filter=lfs diff=lfs merge=lfs -text
