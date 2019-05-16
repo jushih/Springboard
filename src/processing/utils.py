@@ -1,7 +1,7 @@
 #!/Users/julieshih/.local/share/virtualenvs/fashion/bin/python
 import pandas as pd
 from keras_preprocessing.image import ImageDataGenerator
-#path = sys.argv[1]
+path = sys.argv[1]
 #path = 'gdrive/My Drive/img_attributes/Anno/paths.csv'
 
 def load_data(path, sample_size=2000):
@@ -84,6 +84,6 @@ def split_data(df, directory, target_size, train_batch_size=32, test_batch_size=
 
     return train_generator, valid_generator, test_generator
 
-df, class_list, dense_output = load_data('/Users/julieshih/workspace/Springboard/paths.csv')
-train_generator, valid_generator, test_generator = split_data(df, directory='/Users/julieshih/workspace/Springboard/', target_size=(32,32))
+#df, class_list, dense_output = load_data('/Users/julieshih/workspace/Springboard/paths.csv')
+#train_generator, valid_generator, test_generator = split_data(df, directory='/Users/julieshih/workspace/Springboard/', target_size=(32,32))
 
