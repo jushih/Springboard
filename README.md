@@ -14,7 +14,6 @@ src
 │   ├── exploration_attributes.ipynb
 │   └── exploration_landmark.ipynb
 ├── processing
-│   ├── crawl.py
 │   └── utils.py
 ├── models
 │   ├── cnn_3L.py

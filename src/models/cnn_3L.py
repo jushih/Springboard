@@ -6,28 +6,83 @@ from keras.layers import Dense, Activation, Flatten, Dropout, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D, UpSampling2D
 from keras import regularizers, optimizers
 from keras import Model, Input
+import pdb
 
-def cnn_3L():
 
-    input_img = Input(shape=(32,32,3))
-    x = Conv2D(64,(3,3), activation='relu', padding='same')(input_img)
-    x = MaxPooling2D((2,2), padding='same')(x)
-    x = Conv2D(32,(3,3), activation='relu', padding='same')(x)
-    x = MaxPooling2D((2,2), padding='same')(x)
-    x = Conv2D(16,(3,3), activation='relu', padding='same')(x)
-    encoded = MaxPooling2D((2,2), padding='same', name='encoder')(x)
+class AutoEncoder:
+    def __init__(self):
+        print('Initializing Autoencoder...')
 
-    x = Conv2D(16, (3, 3), activation='relu', padding='same')(encoded)
-    x = UpSampling2D((2, 2))(x)
-    x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-    x = UpSampling2D((2, 2))(x)
-    x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
-    x = UpSampling2D((2, 2))(x)
-    #Use three filters in the last layer since your images are RGB:
-    decoded = Conv2D(3, (3, 3), activation='sigmoid', padding='same', name='decoder')(x)
+    def _encoder(self):
+        input_img = Input(shape=(32,32,3))
+        x = Conv2D(64,(3,3), activation='relu', padding='same')(input_img)
+        x = MaxPooling2D((2,2), padding='same')(x)
+        x = Conv2D(32,(3,3), activation='relu', padding='same')(x)
+        x = MaxPooling2D((2,2), padding='same')(x)
+        x = Conv2D(16,(3,3), activation='relu', padding='same')(x)
 
-    autoencoder = Model(input_img, decoded)
-    autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+        encoded = MaxPooling2D((2,2), padding='same', name='encoder_layer')(x)
+        
+        model = Model(inputs=input_img, outputs=encoded, name='encoder')
+        self.encoder = model
+        return model
 
-    return autoencoder
+    def _decoder(self):
+               
+        encoded = Input(shape=(4,4,16))
+        x = Conv2D(16, (3, 3), activation='relu', padding='same')(encoded)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+        x = UpSampling2D((2, 2))(x)
+        #Use three filters in the last layer since your images are RGB:
+        decoded = Conv2D(3, (3, 3), activation='relu', padding='same', name='decoder_layer')(x)
+    
+        model = Model(inputs=encoded, outputs=decoded, name='decoder')
+        self.decoder = model
+        return model
+
+
+    def encoder_decoder(self, optimizer='adam', loss='binary_crossentropy'):
+        ec = self._encoder()
+        dc = self._decoder()
+        
+        inputs = Input(shape=(32,32,3))
+        encoded = ec(inputs)
+        decoded = dc(encoded)
+        model = Model(inputs=inputs, outputs=decoded)
+        
+        self.model = model
+        self.model.compile(optimizer=optimizer, loss=loss)
+        return model
+
+
+    def fit(self, train_generator, valid_generator, STEP_SIZE_TRAIN, STEP_SIZE_VALID, epochs=32):
+#       tbCallBack = keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=0, write_graph=True, write_images=True)
+        autoencoder.fit_generator(generator=train_generator,
+                    steps_per_epoch=STEP_SIZE_TRAIN,
+                    validation_data=valid_generator,
+                    validation_steps=STEP_SIZE_VALID,
+                    epochs=epochs,
+                    verbose=1,
+                    shuffle=True)
+ 
+ 
+    def save(self):
+        if not os.path.exists(r'./weights'):
+            os.mkdir(r'./weights')
+        else:
+            self.encoder.save(r'./weights/encoder_weights.h5')
+            self.decoder.save(r'./weights/decoder_weights.h5')
+            self.model.save(r'./weights/ae_weights.h5')
+        
+
+#if __name__ == '__main__':
+#    ae = AutoEncoder()
+#    ae.encoder_decoder()
+#    pdb.set_trace()
+#    ae.fit(batch_size=50, epochs=300)
+#    print(ae.model.summary())
+
 
