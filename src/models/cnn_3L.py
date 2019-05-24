@@ -60,7 +60,7 @@ class AutoEncoder:
 
     def fit(self, train_generator, valid_generator, STEP_SIZE_TRAIN, STEP_SIZE_VALID, epochs=32):
 #       tbCallBack = keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=0, write_graph=True, write_images=True)
-        autoencoder.fit_generator(generator=train_generator,
+        self.model.fit_generator(generator=train_generator,
                     steps_per_epoch=STEP_SIZE_TRAIN,
                     validation_data=valid_generator,
                     validation_steps=STEP_SIZE_VALID,

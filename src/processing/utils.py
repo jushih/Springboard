@@ -43,7 +43,7 @@ def load_data(path, sample_size=2000):
     print(df.head())
     # Randomly subsample the data to get n rows
     df_sample = df.sample(n=sample_size, random_state=1)
-    df_sample = df.sample.reset_index()
+    df_sample = df_sample.reset_index()
 
     print('Sampled',df_sample.shape[0],'images')
 
