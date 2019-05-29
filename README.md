@@ -6,8 +6,6 @@ README.md
 data
 ├── img
 │   ├── folders
-fashion
-├── __init__.py
 requirements.txt
 src
 ├── exploration
@@ -24,8 +22,6 @@ src
 ```
 
 # References
-
-Forever21 - https://www.forever21.com/us/shop
 
 Large-scale Fashion (DeepFashion) Database - http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
 
