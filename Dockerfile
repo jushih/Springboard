@@ -12,19 +12,8 @@ RUN mkdir -p /fashion/src/processing/
 RUN mkdir -p /fashion/data/img/
 RUN mkdir -p /fashion/data/Anno/
 
-#ADD /data/img/ /fashion/src/img/
-#COPY /src/models/* /fashion/src/models/
-#COPY /src/processing/* /fashion/src/processing/
-#COPY train.py /fashion/
-#COPY /src/__init__.py /fashion/src/
-
 COPY . /fashion/
 RUN chmod +x **/*.py
-
-#RUN mkdir /root/.keras
-#COPY /src/models/keras.json /root/.keras/
-
-
 
 # install required packages
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
