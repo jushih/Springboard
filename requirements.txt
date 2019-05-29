@@ -1,0 +1,17 @@
+cycler==0.10.0
+-e git+https://github.com/jushih/Springboard.git@17425c6dd2b078d6a59f67093c44aee78b049c3f#egg=fashion
+h5py==2.9.0
+Keras==2.2.4
+Keras-Applications==1.0.7
+Keras-Preprocessing==1.0.9
+kiwisolver==1.1.0
+matplotlib==3.0.3
+numpy==1.16.3
+pandas==0.24.2
+pypandoc==1.4
+pyparsing==2.4.0
+python-dateutil==2.8.0
+pytz==2019.1
+PyYAML==5.1
+scipy==1.2.1
+six==1.12.0

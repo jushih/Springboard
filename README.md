@@ -1,12 +1,27 @@
-# Dataset
 
-**Fashion Landmark Images** - The img_landmark folder contains a subset of images from The Chinese University of Hong Kong's Fashion Landmark Dataset. The full dataset has ~120,000 images. 
+# File Structure
 
-**Forever21 Images** - The f21 folder contains ~2,000 additional clothing images I compiled by scraping the retailer's website. 
+```
+README.md
+data
+├── img
+│   ├── folders
+requirements.txt
+src
+├── exploration
+│   ├── exploration_attributes.ipynb
+│   └── exploration_landmark.ipynb
+├── processing
+│   └── utils.py
+├── models
+│   ├── cnn_3L.py
+└── scraper
+    ├── full_scraper.py
+    ├── scraper.ipynb
+    └── scraper.py
+```
 
 # References
-
-Forever21 - https://www.forever21.com/us/shop
 
 Large-scale Fashion (DeepFashion) Database - http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
 
