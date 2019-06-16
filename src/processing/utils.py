@@ -14,20 +14,23 @@ def set_paths(loc):
         img_dir = '/Users/julieshih/workspace/Springboard/data/img/'
         metadata_dir = '/Users/julieshih/workspace/Springboard/data/Anno/'
         model_dir = '/Users/julieshih/workspace/Springboard/models/'
-        return img_dir, metadata_dir, model_dir
+        search_img_dir = '/Users/julieshih/workspace/Springboard/data/search_img/'
+        return img_dir, metadata_dir, model_dir, search_img_dir
 
     if loc == "docker":
         img_dir = '/fashion/data/img/'
         metadata_dir = '/fashion/data/Anno/'
         model_dir = '/fashion/models/'
-        return img_dir, metadata_dir, model_dir
+        search_img_dir = 'fashion/data/search_img/'
+        return img_dir, metadata_dir, model_dir, search_img_dir
 
 
     if loc == "colab":
         img_dir = '/content/gdrive/My Drive/data/img/'
         metadata_dir = '/content/gdrive/My Drive/data/Anno/'
         model_dir = '/content/gdrive/My Drive/data/Anno/'
-        return img_dir, metadata_dir, model_dir
+        search_img_dir = '/content/gdrive/My Drive/data/search_img/'
+        return img_dir, metadata_dir, model_dir, search_img_dir
 
     # add aws paths eventually
 

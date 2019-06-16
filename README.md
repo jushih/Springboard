@@ -6,6 +6,8 @@ README.md
 data
 ├── img
 │   ├── folders
+├── search_img
+│   ├── file
 requirements.txt
 src
 ├── exploration

@@ -92,7 +92,7 @@ class vggVAE:
         self.decoder = decoder
         return decoder
 
-    def encoder_decoder(self, optimizer='adam'):
+    def encoder_decoder(self, image_dim=32*32, optimizer='adam'):
    
         # build VAE
         ec = self._encoder()
@@ -110,7 +110,7 @@ class vggVAE:
  
 
         # same as input shape, modularize this later
-        original_dim = 32*32
+        original_dim = image_dim
 
         # Compute VAE loss
         def my_vae_loss(y_true, y_pred, z_log_var=z_log_var, z_mean=z_mean):
