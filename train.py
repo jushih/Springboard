@@ -37,8 +37,8 @@ print(vae.model.summary())
 vae.save(model_dir)
 
 
-originals, encodings = clothes_db(model=ae,inventory_generator=inventory_generator)
+originals, encodings = clothes_db(model=vae,inventory_generator=inventory_generator)
 print(encodings)
 
-retrieved = retrieve(ae, originals, encodings, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
+retrieved = retrieve(vae, originals, encodings, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
 print(retrieved)
