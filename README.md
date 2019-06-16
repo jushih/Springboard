@@ -15,6 +15,7 @@ src
 │   └── utils.py
 ├── models
 │   ├── cnn_3L.py
+│   ├── vgg.py
 └── scraper
     ├── full_scraper.py
     ├── scraper.ipynb
