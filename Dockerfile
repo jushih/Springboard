@@ -9,6 +9,7 @@ RUN apt-get update && \
 
 RUN mkdir -p /fashion/src/models/
 RUN mkdir -p /fashion/src/processing/
+RUN mkdir -p /fashion/models/
 RUN mkdir -p /fashion/data/img/
 RUN mkdir -p /fashion/data/Anno/
 
@@ -32,6 +33,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     python-dateutil==2.8.0 \
     pytz==2019.1 \ 
     PyYAML==5.1 \
+    scikit-learn==0.21.2 \
     scipy==1.2.1 \
     six==1.12.0 \
     tensorboard==1.13.1 \ 

@@ -69,14 +69,16 @@ class AutoEncoder:
                     shuffle=True)
  
  
-    def save(self):
-        if not os.path.exists(r'./weights'):
-            os.mkdir(r'./weights')
-        else:
-            self.encoder.save(r'./weights/encoder_weights.h5')
-            self.decoder.save(r'./weights/decoder_weights.h5')
-            self.model.save(r'./weights/ae_weights.h5')
-        
+    def save(self, model_dir):
+
+        # save h5 file
+        self.model.save(model_dir+'autoencoder.h5')
+    
+        # save model json
+        model_json = self.model.to_json()
+        with open(model_dir+'autoencoder.json', 'w') as json_file:
+            json_file.write(model_json)
+       
 
 #if __name__ == '__main__':
 #    ae = AutoEncoder()
