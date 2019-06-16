@@ -1,6 +1,7 @@
 #!/Users/julieshih/anaconda/bin/python
 from src.processing.utils import * 
 from src.models.cnn_3L import *
+from src.models.vgg import *
 
 img_dir, metadata_dir, model_dir = set_paths("local")
 
@@ -19,8 +20,9 @@ STEP_SIZE_TRAIN=train_generator.n//train_generator.batch_size
 STEP_SIZE_VALID=valid_generator.n//valid_generator.batch_size
 STEP_SIZE_TEST=test_generator.n//test_generator.batch_size
 
-ae = AutoEncoder()
+ae = vggVAE()
 ae.encoder_decoder()
+pdb.set_trace()
 ae.fit(train_generator, valid_generator, STEP_SIZE_TRAIN, STEP_SIZE_VALID)
 print(ae.model.summary())
 ae.save(model_dir)

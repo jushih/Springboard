@@ -72,11 +72,11 @@ class AutoEncoder:
     def save(self, model_dir):
 
         # save h5 file
-        self.model.save(model_dir+'autoencoder.h5')
+        self.model.save(model_dir+'cnn_3L.h5')
     
         # save model json
         model_json = self.model.to_json()
-        with open(model_dir+'autoencoder.json', 'w') as json_file:
+        with open(model_dir+'cnn_3L.json', 'w') as json_file:
             json_file.write(model_json)
        
 
