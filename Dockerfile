@@ -29,6 +29,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     numpy==1.16.3 \
     pandas==0.24.2 \
     Pillow==6.0.0 \
+    pydot==1.4.1 \
     pypandoc==1.4 \
     pyparsing==2.4.0 \
     python-dateutil==2.8.0 \

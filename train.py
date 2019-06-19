@@ -24,7 +24,7 @@ STEP_SIZE_TRAIN=train_generator.n//train_generator.batch_size
 STEP_SIZE_VALID=valid_generator.n//valid_generator.batch_size
 STEP_SIZE_TEST=test_generator.n//test_generator.batch_size
 
-vae = vggVAE()
+vae = AutoEncoder()
 vae.encoder_decoder(image_dim=cfg.IMAGE_DIM)
 
 vae.fit( train_generator, 

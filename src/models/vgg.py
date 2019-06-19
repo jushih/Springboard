@@ -13,6 +13,7 @@ import numpy as np
 from keras.applications.vgg16 import VGG16
 from keras import backend as K
 from keras.losses import mse, binary_crossentropy
+from keras.utils import plot_model
 import pdb
 
 class vggVAE:
@@ -147,17 +148,20 @@ class vggVAE:
 
     def save(self, model_dir):
         # save h5 file
-        self.model.save(model_dir+'vgg_vae.h5')
+        self.model.save(model_dir+'vggVAE.h5')
 
         # save model json
         model_json = self.model.to_json()
-        with open(model_dir+'vgg_vae.json', 'w') as json_file:
+        with open(model_dir+'vggVAE.json', 'w') as json_file:
             json_file.write(model_json)
+
+         # save model architecture as image
+        plot_model(self.encoder, to_file=model_dir+'vggVAE_encoder.png',show_shapes=True, show_layer_names=True)
+        plot_model(self.decoder, to_file=model_dir+'vggVAE_decoder.png',show_shapes=True, show_layer_names=True)
 
 #if __name__ == '__main__':
 #    vae = vggVAE()
 #    vae.encoder_decoder()
 #    print(vae.model.summary())
-
 
 

@@ -6,6 +6,7 @@ from keras.layers import Dense, Activation, Flatten, Dropout, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D, UpSampling2D
 from keras import regularizers, optimizers
 from keras import Model, Input
+from keras.utils import plot_model
 import pdb
 
 
@@ -44,7 +45,7 @@ class AutoEncoder:
         return model
 
 
-    def encoder_decoder(self, optimizer='adam', loss='binary_crossentropy'):
+    def encoder_decoder(self, optimizer='adam', loss='binary_crossentropy',image_dim=32*32):
         ec = self._encoder()
         dc = self._decoder()
         
@@ -78,7 +79,12 @@ class AutoEncoder:
         model_json = self.model.to_json()
         with open(model_dir+'cnn_3L.json', 'w') as json_file:
             json_file.write(model_json)
-       
+
+        # save model architecture as image
+        plot_model(self.encoder, to_file=model_dir+'cnn_3L_encoder.png',show_shapes=True, show_layer_names=True)
+        plot_model(self.decoder, to_file=model_dir+'cnn_3L_decoder.png',show_shapes=True, show_layer_names=True)
+
+      
 
 #if __name__ == '__main__':
 #    ae = AutoEncoder()
