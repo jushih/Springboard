@@ -150,6 +150,9 @@ class vggVAE:
         # save h5 file
         self.model.save(model_dir+'vggVAE.h5')
 
+        # save model weights
+        self.model.save_weights(model_dir+'vggVAE_weights.h5')
+        
         # save model json
         model_json = self.model.to_json()
         with open(model_dir+'vggVAE.json', 'w') as json_file:

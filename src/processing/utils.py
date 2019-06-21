@@ -155,7 +155,7 @@ def inventory_gen(df, img_dir, target_size=(32,32), seed=42, batch_size=1):
 
 # constructs the clothing inventory that the knn model will search and retrieve from
 # returns the inventory in two lists, one that has the images encoded and one original
-def clothes_db(model, inventory_generator):
+def clothes_db(model_encoder, inventory_generator):
     
     encodings = [] # vector of encoded img
     originals = [] # vector of original img 
@@ -164,7 +164,7 @@ def clothes_db(model, inventory_generator):
   
         im = inventory_generator[i] 
         originals.append(im)
-        encoded = model.encoder.predict(im)
+        encoded = model_encoder.predict(im)
         squeezed = np.squeeze(encoded,axis=0)
   
         reshaped = np.hstack(np.hstack(squeezed)) # stack twice to reduce dimensions from (x, x, x) to (x,)
@@ -173,7 +173,7 @@ def clothes_db(model, inventory_generator):
     return originals, encodings
 
 
-def retrieve(model, originals, encodings, search_img_dir, target_size=(32,32), n=5):
+def retrieve(model_encoder, originals, encodings, search_img_dir, target_size=(32,32), n=5):
 
     # fit knn model to encodings
     nbrs = NearestNeighbors(n_neighbors=n).fit(encodings)
@@ -189,7 +189,7 @@ def retrieve(model, originals, encodings, search_img_dir, target_size=(32,32), n
         class_mode=None,
         target_size=target_size)
 
-    encoded_search_img = model.encoder.predict(search_img[0])
+    encoded_search_img = model_encoder.predict(search_img[0])
     squeezed = np.squeeze(encoded_search_img,axis=0)
     # stack twice to reduce dimensions from (x, x, x) to (x,) then reshape to (1,x)
     reshaped_search_img = np.hstack(np.hstack(squeezed)).reshape(1,-1)  

@@ -3,6 +3,7 @@ from src.processing.utils import *
 import src.processing.config as cfg
 from src.models.cnn_3L import *
 from src.models.vgg import *
+import pickle
 
 img_dir, metadata_dir, model_dir, search_img_dir = set_paths(cfg.PATH)
 
@@ -24,7 +25,7 @@ STEP_SIZE_TRAIN=train_generator.n//train_generator.batch_size
 STEP_SIZE_VALID=valid_generator.n//valid_generator.batch_size
 STEP_SIZE_TEST=test_generator.n//test_generator.batch_size
 
-vae = AutoEncoder()
+vae = vggVAE()
 vae.encoder_decoder(image_dim=cfg.IMAGE_DIM)
 
 vae.fit( train_generator, 
@@ -36,9 +37,13 @@ vae.fit( train_generator,
 print(vae.model.summary())
 vae.save(model_dir)
 
+# using the trained model, encode all clothing images for later use in knn retrieval
+originals, encodings = clothes_db(model_encoder=vae.encoder,inventory_generator=inventory_generator)
 
-originals, encodings = clothes_db(model=vae,inventory_generator=inventory_generator)
+with open(model_dir+'vggVAE_encoded_closet', 'wb') as f:
+    pickle.dump(encodings, f)
+
+with open(model_dir+'vggVAE_original_closet', 'wb') as f:
+    pickle.dump(originals, f)
+
 print(encodings)
-
-retrieved = retrieve(vae, originals, encodings, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
-print(retrieved)
