@@ -21,6 +21,7 @@ RUN chmod +x **/*.py
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     pip3 install cycler==0.10.0 \
     h5py==2.9.0 \
+    imageio==2.5.0 \
     Keras==2.2.4 \
     Keras-Applications==1.0.7 \
     Keras-Preprocessing==1.0.9 \

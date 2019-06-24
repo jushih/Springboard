@@ -1,6 +1,6 @@
 PATH = "local"
 
-EPOCHS = 20
+EPOCHS = 3
 
 SAMPLE_SIZE = 1000
 

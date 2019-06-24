@@ -4,8 +4,10 @@ import sys
 import pandas as pd
 import numpy as np
 from keras_preprocessing.image import ImageDataGenerator
-import pdb
 from sklearn.neighbors import NearestNeighbors
+from imageio import imread
+import matplotlib.image as mpimg
+import pdb
 
 # returns paths depending on working location
 def set_paths(loc):
@@ -155,15 +157,21 @@ def inventory_gen(df, img_dir, target_size=(32,32), seed=42, batch_size=1):
 
 # constructs the clothing inventory that the knn model will search and retrieve from
 # returns the inventory in two lists, one that has the images encoded and one original
-def clothes_db(model_encoder, inventory_generator):
+def clothes_db(model_encoder, inventory_generator, df):
     
     encodings = [] # vector of encoded img
     originals = [] # vector of original img 
 
     for i in range(0,inventory_generator.n):
-  
+
+
+        # original images
+        orig_im = df.iloc[i][1]
+        orig_im = mpimg.imread(orig_im)
+        originals.append(orig_im)
+
+        # encoded images
         im = inventory_generator[i] 
-        originals.append(im)
         encoded = model_encoder.predict(im)
         squeezed = np.squeeze(encoded,axis=0)
   

@@ -18,7 +18,7 @@ train_generator, valid_generator, test_generator = split_data(df,
                                                               test_batch_size=cfg.TEST_BATCH_SIZE,
                                                               seed=cfg.SEED)
 
-inventory_generator = inventory_gen(df, img_dir=img_dir,target_size=cfg.IMAGE_SIZE)
+inventory_generator = inventory_gen(df=df, img_dir=img_dir,target_size=cfg.IMAGE_SIZE)
 
 
 STEP_SIZE_TRAIN=train_generator.n//train_generator.batch_size
@@ -38,7 +38,7 @@ print(vae.model.summary())
 vae.save(model_dir)
 
 # using the trained model, encode all clothing images for later use in knn retrieval
-originals, encodings = clothes_db(model_encoder=vae.encoder,inventory_generator=inventory_generator)
+originals, encodings = clothes_db(model_encoder=vae.encoder,inventory_generator=inventory_generator, df=df)
 
 with open(model_dir+'vggVAE_encoded_closet', 'wb') as f:
     pickle.dump(encodings, f)
