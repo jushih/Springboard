@@ -20,6 +20,7 @@ RUN chmod +x **/*.py
 # install required packages
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     pip3 install cycler==0.10.0 \
+    Flask==1.0.3 \
     h5py==2.9.0 \
     imageio==2.5.0 \
     Keras==2.2.4 \
