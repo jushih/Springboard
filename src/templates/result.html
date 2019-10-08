@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Result page</title>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+   <style>
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Lato', sans-serif;
+  background-image: linear-gradient(to top right, #bf7a6b 0%, #e6d8a7 100%);
+  background-repeat: no-repeat;
+}
+
+.container  {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 5px;
+  width: 600px;
+  max-width: 40%;
+  height: auto;
+  margin: 50px auto;
+  align-self: center;
+  box-sizing: border-box;
+  text-align:center;
+}
+
+h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+}
+
+
+   </style>
 
 </head>
 <body>
@@ -11,19 +48,23 @@
 
     <div class="row">
 
-        <h2 style="text-align: center;">Query image</h1>
-        <!-- Show query image -->
-        <img src=" {{url_for('send_image', filename=image_name)}}" style="margin-left: 49%;">
+        <h2 style="text-align: center;">Query Image</h2>
 
+	<!-- Show query image -->
+        <img src=" {{url_for('send_image', filename=image_name)}}" style="width:150px;height:150px;">
+	
+	<hr/>
 
-        <h1 style="text-align: center;">Result images</h1>
+        <h2 style="text-align: center;">Retrieved Images</h2>
 
+ 
         <hr>
+	<br>
         <!-- Iterate through images -->
         {% for image_name in result_paths %}
-        <div class="col-lg-1 col-md-4 col-xs-6 thumb">
+        <div class="col-lg-4 col-md-4 col-xs-4 thumb">
             <br>
-            <img class="img-responsive" src=" {{url_for('static', filename=image_name)}}">
+	    <img src="{{ url_for('static', filename=image_name) }}" style="width:150px;height:150px;">
         </div>
         {% endfor %}
     </div>
