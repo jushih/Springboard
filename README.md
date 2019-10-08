@@ -8,7 +8,7 @@ data
 │   ├── folders
 ├── search_img
 │   ├── file
-requirements.txt
+models
 src
 ├── exploration
 │   ├── exploration_attributes.ipynb
@@ -19,9 +19,15 @@ src
 │   ├── cnn_3L.py
 │   ├── vgg.py
 └── scraper
-    ├── full_scraper.py
-    ├── scraper.ipynb
-    └── scraper.py
+│   ├── full_scraper.py
+│   ├── scraper.ipynb
+│   └── scraper.py
+└── templates
+Dockerfile
+requirements.txt
+train.py
+retrieve.py
+
 ```
 
 # References
