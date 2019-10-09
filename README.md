@@ -6,8 +6,6 @@ README.md
 data
 ├── img
 │   ├── folders
-├── search_img
-│   ├── file
 models
 src
 ├── exploration
@@ -18,17 +16,22 @@ src
 ├── models
 │   ├── cnn_3L.py
 │   ├── vgg.py
-└── scraper
+├── scraper
 │   ├── full_scraper.py
 │   ├── scraper.ipynb
 │   └── scraper.py
 └── templates
+    ├── index.html
+    └── result.html
+app.py
+train.py
+encode.py
+retrieve.py
 Dockerfile
 requirements.txt
-train.py
-retrieve.py
 
 ```
+
 
 # References
 
