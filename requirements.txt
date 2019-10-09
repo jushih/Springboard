@@ -1,5 +1,6 @@
 cycler==0.10.0
 -e git+https://github.com/jushih/Springboard.git@17425c6dd2b078d6a59f67093c44aee78b049c3f#egg=fashion
+Flask==1.0.3
 h5py==2.9.0
 imageio==2.5.0
 Keras==2.2.4
