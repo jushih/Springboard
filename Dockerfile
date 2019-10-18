@@ -9,6 +9,7 @@ RUN apt-get update && \
 
 RUN mkdir -p /fashion/src/models/
 RUN mkdir -p /fashion/src/processing/
+RUN mkdir -p /fashion/src/templates/
 RUN mkdir -p /fashion/models/
 RUN mkdir -p /fashion/data/img/
 RUN mkdir -p /fashion/data/Anno/
@@ -23,6 +24,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     Flask==1.0.3 \
     h5py==2.9.0 \
     imageio==2.5.0 \
+    jsonpickle==1.2 \
     Keras==2.2.4 \
     Keras-Applications==1.0.7 \
     Keras-Preprocessing==1.0.9 \

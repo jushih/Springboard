@@ -7,7 +7,13 @@ import pickle
 import pdb
 import json
 from keras import Model, Input
-"""Create embeddings with the trained model"""
+from joblib import dump, load
+
+"""
+Create embeddings with the trained model,
+use kmeans to assign each embedding a cluster
+create a dict mapping filenames to both embedding and cluster 
+"""
 img_dir, metadata_dir, model_dir, search_img_dir = set_paths(cfg.PATH)
 
 print('Loading trained model...')
@@ -20,18 +26,28 @@ autoencoder = load_model(model_dir+'cnn_3L.h5')
 encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_output_at(0))
 print(encoder.summary())
 
-
 df, class_list, dense_output = load_data(metadata_dir, sample_size=cfg.SAMPLE_SIZE)
 inventory_generator = inventory_gen(df=df, img_dir=img_dir,target_size=cfg.IMAGE_SIZE)
 
+print('Generating encodings...')
 # using the trained model, encode all clothing images for later use in knn retrieval
 encodings = clothes_db(model_encoder=encoder,inventory_generator=inventory_generator, df=df)
 
-
-print('pickling...')
-
-with open(model_dir+'vgg_encoded_closet', 'wb') as f:
+with open(model_dir+'vgg_encodings', 'wb') as f:
     pickle.dump(encodings, f, protocol=pickle.HIGHEST_PROTOCOL)
 
+#with open(model_dir+'vgg_encodings', 'rb') as ef:
+#     encodings = pickle.load(ef)
 
-print('pickled')
+print('Clustering...')
+kmeans_clf, db = cluster(encodings)
+
+print('Saving kmeans classifer...')
+dump(kmeans_clf,model_dir+'vgg_kmeans.joblib')
+
+print('Saving dict of encodings and clusters...')
+with open(model_dir+'vgg_closet', 'wb') as f:
+    pickle.dump(db, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+

@@ -5,6 +5,7 @@ from keras.models import model_from_json
 from keras.models import load_model
 from keras import Model, Input
 import pickle
+import joblib
 import os
 import re
 import json
@@ -18,8 +19,6 @@ img_dir, metadata_dir, model_dir, search_img_dir = set_paths(cfg.PATH)
 
 print('Loading trained model...')
 
-#autoencoder = model_from_json(open(model_dir+'cnn_3L.json').read())
-#autoencoder.load_weights(model_dir+'cnn_3L_weights.h5')
 autoencoder = load_model(model_dir+'cnn_3L.h5')
 
 # build encoder
@@ -27,17 +26,16 @@ encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_output_at(0))
 
 graph = tf.get_default_graph()
 
-with open(model_dir+'vgg_encoded_closet', 'rb') as ef:   
+with open(model_dir+'vgg_closet', 'rb') as ef:   
      encodings = pickle.load(ef)
+
+# load kmeans model
+with open(model_dir+'vgg_kmeans.joblib', 'rb') as kf:  
+    kmeans_clf = joblib.load(kf)
+
 
 
 search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/'
-
-#print ('Retrieving similar images...')
-#retrieved = retrieve(encoder, encodings, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
-#print(retrieved)
-
-
 
 app = Flask(__name__, static_folder='/Users/julieshih/workspace/Springboard/data/img',root_path='src/')
 
@@ -71,7 +69,7 @@ def upload():
 
         print(encoder)
         # generate prediction and return similar images
-        retrieved = retrieve(encoder, encodings, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
+        retrieved = retrieve(encoder, encodings, kmeans_clf, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
        
         print(retrieved)
         

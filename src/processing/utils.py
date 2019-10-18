@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from keras_preprocessing.image import ImageDataGenerator
 from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import KMeans
 from imageio import imread
 import matplotlib.image as mpimg
 import pdb
@@ -158,7 +159,7 @@ def inventory_gen(df, img_dir, target_size=(32,32), seed=42, batch_size=1):
 
     return inventory_generator
 
-# constructs the clothing inventory that the knn model will search and retrieve from
+# use the trained model to create encodings of each image
 def clothes_db(model_encoder, inventory_generator, df):
 
     encodings = {}  # dictionary of encodings mapped to filenames
@@ -169,8 +170,6 @@ def clothes_db(model_encoder, inventory_generator, df):
 
         # save pathnames as dict key
         img_path = df.filename.iloc[i]
-        #orig_im = df.iloc[i][1]
-        #orig_im = mpimg.imread(orig_im)
 
         # save embeddings as dict value
         im = inventory_generator[i] 
@@ -180,16 +179,37 @@ def clothes_db(model_encoder, inventory_generator, df):
         reshaped = np.hstack(np.hstack(squeezed)) # stack twice to reduce dimensions from (x, x, x) to (x,)
         encodings[img_path] = reshaped
 
-        n += 1
-        print(n)
+        #n += 1
+        #print(n)
     
     return encodings
 
+# cluster the encoded images
+def cluster(encodings):
+    
+    encoded_values = list(encodings.values())
+    kmeans_clf = KMeans(n_clusters=10, random_state=0).fit(encoded_values)
 
-def retrieve(model_encoder, encodings, search_img_dir, target_size=(32,32), n=6):
+    # get cluster labels
+    labels = kmeans_clf.predict(list(encodings.values()))
 
-    # fit knn model to encodings
-    nbrs = NearestNeighbors(n_neighbors=n).fit(list(encodings.values()))
+    # create a dict of filename and cluster label
+    clusters = dict(zip(list(encodings.keys()), labels))
+
+    # create a new dict that has filename, label, and encoding
+    # format {filename: [encoding], label]}
+    db  = {}
+    for key in (encodings.keys() | clusters.keys()):
+        if key in encodings: db.setdefault(key, []).append(encodings[key])
+        if key in clusters: db.setdefault(key, []).append(clusters[key])
+
+    print(db)
+
+    return kmeans_clf, db
+    
+# returns similar images by first using kmeans to find images belonging the cluster
+# then using knn to retrieve most similar images
+def retrieve(model_encoder, db, kmeans_clf, search_img_dir, target_size=(32,32), n=6):
 
     # load search img and rescale, this generator wil contain only the search img
     datagen=ImageDataGenerator(rescale=1./255.)
@@ -202,17 +222,33 @@ def retrieve(model_encoder, encodings, search_img_dir, target_size=(32,32), n=6)
         class_mode=None,
         target_size=target_size)
     
-    print(search_img[0])
-    print(model_encoder.predict)
-
     encoded_search_img = model_encoder.predict(search_img[0])
     squeezed = np.squeeze(encoded_search_img,axis=0)
     # stack twice to reduce dimensions from (x, x, x) to (x,) then reshape to (1,x)
     reshaped_search_img = np.hstack(np.hstack(squeezed)).reshape(1,-1)  
 
+    # get the cluster the search image belongs to
+    label = kmeans_clf.predict(encoded_search_img.reshape(encoded_search_img.shape[0],-1))
+    label = label[0]
+
+    # build dict of encodings based on images in the cluster
+    encodings = {}
+    for key, value in db.items():
+
+        # value[0] are encodings, value[1] are clusters
+        if value[1] == label:
+            encodings[key] = value[0]
+
+
+    print(len(encodings), ' images in this cluster.')
+
+    # fit knn model to encodings
+    nbrs = NearestNeighbors(n_neighbors=n).fit(list(encodings.values()))
+
     # retrieve nearest images
     distances, indices = nbrs.kneighbors(reshaped_search_img)
     print(indices)
+
     # later add distances cutoff here
 
     return_imgs = []
@@ -222,6 +258,4 @@ def retrieve(model_encoder, encodings, search_img_dir, target_size=(32,32), n=6)
 
        
     return return_imgs
-#df, class_list, dense_output = load_data('/Users/julieshih/workspace/Springboard/paths.csv')
-#train_generator, valid_generator, test_generator = split_data(df, directory='/Users/julieshih/workspace/Springboard/', target_size=(32,32))
 
