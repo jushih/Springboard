@@ -1,7 +1,9 @@
 cycler==0.10.0
 -e git+https://github.com/jushih/Springboard.git@17425c6dd2b078d6a59f67093c44aee78b049c3f#egg=fashion
+Flask==1.0.3
 h5py==2.9.0
 imageio==2.5.0
+jsonpickle==1.2
 Keras==2.2.4
 Keras-Applications==1.0.7
 Keras-Preprocessing==1.0.9
@@ -9,6 +11,7 @@ kiwisolver==1.1.0
 matplotlib==3.0.3
 numpy==1.16.3
 pandas==0.24.2
+Pillow==6.0.0
 pydot==1.4.1
 pypandoc==1.4
 pyparsing==2.4.0
@@ -18,3 +21,7 @@ PyYAML==5.1
 scikit-learn==0.21.2
 scipy==1.2.1
 six==1.12.0
+tensorboard==1.13.1
+tensorflow==1.13.1
+tensorflow-estimator==1.13.0
+

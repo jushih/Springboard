@@ -1,0 +1,111 @@
+<!-- 
+    Home page for image identification.
+ -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<style>
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Lato', sans-serif;
+  /*background-color: #363940;*/
+  background-image: linear-gradient(to top right, #bf7a6b 0%, #e6d8a7 100%);
+  /*background-image: url('https://cdn.stocksnap.io/img-thumbs/960w/ZN97ZIF3ZU.jpg');*/
+  background-repeat: no-repeat;
+}
+
+.container  {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 5px;
+  width: 600px;
+  max-width: 40%;
+  height: 400px;
+  margin: 50px auto;
+  align-self: center;
+  box-sizing: border-box;
+  text-align:center;
+}
+
+.h2 {
+  color: #eee;
+  font-size:16px
+}
+
+.form-group {
+  width: 350px;
+  margin: auto;
+}
+
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+</style>
+
+        <title>Upload</title>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    </head>
+    <body>
+
+	<div class="container">
+	    <h2>Dress Image Retrieval</h2>
+	    <hr>
+
+	    <!-- Setup simple upload form -->
+            <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="margin-top: 10%;">
+                <div class='form-group'>
+                <input id="file-uploader" type="file" name="file" accept="image/*">
+                <input type="submit" value="Upload Image" id="upload-button">
+                </div>
+            </form>
+
+                </div>
+            </form>
+
+	</div>
+    </body>
+
+    <script>
+
+        $("#file-uploader").change(function(){
+            var file = document.getElementById('file-uploader');
+
+            var extension =  input.files[0].name.substring(input.files[0].name.lastIndexOf('.')+1).toLowerCase()
+
+            if ((extension == 'jpg') || (extension == 'png') || (extension == 'jpeg')){
+                //Do something fun
+            }
+            else{
+                //if user has uploaded wrong format restart file uploader value
+                document.getElementById("file-uploader").value ="";
+            }
+        } );
+    </script>
+</html>

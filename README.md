@@ -6,9 +6,7 @@ README.md
 data
 ├── img
 │   ├── folders
-├── search_img
-│   ├── file
-requirements.txt
+models
 src
 ├── exploration
 │   ├── exploration_attributes.ipynb
@@ -18,11 +16,22 @@ src
 ├── models
 │   ├── cnn_3L.py
 │   ├── vgg.py
-└── scraper
-    ├── full_scraper.py
-    ├── scraper.ipynb
-    └── scraper.py
+├── scraper
+│   ├── full_scraper.py
+│   ├── scraper.ipynb
+│   └── scraper.py
+└── templates
+    ├── index.html
+    └── result.html
+app.py
+train.py
+encode.py
+retrieve.py
+Dockerfile
+requirements.txt
+
 ```
+
 
 # References
 

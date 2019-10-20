@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from keras_preprocessing.image import ImageDataGenerator
 from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import KMeans
 from imageio import imread
 import matplotlib.image as mpimg
 import pdb
@@ -16,7 +17,7 @@ def set_paths(loc):
         img_dir = '/Users/julieshih/workspace/Springboard/data/img/'
         metadata_dir = '/Users/julieshih/workspace/Springboard/data/Anno/'
         model_dir = '/Users/julieshih/workspace/Springboard/models/'
-        search_img_dir = '/Users/julieshih/workspace/Springboard/data/search_img/'
+        search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/'
         return img_dir, metadata_dir, model_dir, search_img_dir
 
     if loc == "docker":
@@ -25,7 +26,6 @@ def set_paths(loc):
         model_dir = '/fashion/models/'
         search_img_dir = 'fashion/data/search_img/'
         return img_dir, metadata_dir, model_dir, search_img_dir
-
 
     if loc == "colab":
         img_dir = '/content/gdrive/My Drive/data/img/'
@@ -60,14 +60,17 @@ def load_data(metadata_dir, sample_size=2000):
 
     print('Number of images:', len(files))
 
+    print('Filtering to dresses...')
     #filter images
     dress_files = []
 
     for path in files:
-        #add filters here at a later stage e.g., if 'Dress' in path
-        dress_files.append(path)
+        if 'Dress' in path:
+            dress_files.append(path)
     
     df = pd.DataFrame(dress_files, columns=['filename'])
+
+    print('Number of dress images:', df.shape[0])
 
     df['folder'] = df.filename.astype(str).str.split('/data/img').str[1].str.split('/').str[1]
     df['label'] = df.folder.astype(str).str.split('_')
@@ -155,40 +158,61 @@ def inventory_gen(df, img_dir, target_size=(32,32), seed=42, batch_size=1):
 
     return inventory_generator
 
-# constructs the clothing inventory that the knn model will search and retrieve from
-# returns the inventory in two lists, one that has the images encoded and one original
+# use the trained model to create encodings of each image
 def clothes_db(model_encoder, inventory_generator, df):
-    
-    encodings = [] # vector of encoded img
-    originals = [] # vector of original img 
+
+    encodings = {}  # dictionary of encodings mapped to filenames
+    n = 0
 
     for i in range(0,inventory_generator.n):
 
 
-        # original images
-        orig_im = df.iloc[i][1]
-        orig_im = mpimg.imread(orig_im)
-        originals.append(orig_im)
+        # save pathnames as dict key
+        img_path = df.filename.iloc[i]
 
-        # encoded images
+        # save embeddings as dict value
         im = inventory_generator[i] 
         encoded = model_encoder.predict(im)
         squeezed = np.squeeze(encoded,axis=0)
   
         reshaped = np.hstack(np.hstack(squeezed)) # stack twice to reduce dimensions from (x, x, x) to (x,)
-        encodings.append(reshaped)
+        encodings[img_path] = reshaped
 
-    return originals, encodings
+        #n += 1
+        #print(n)
+    
+    return encodings
 
+# cluster the encoded images
+def cluster(encodings):
+    
+    encoded_values = list(encodings.values())
+    kmeans_clf = KMeans(n_clusters=10, random_state=0).fit(encoded_values)
 
-def retrieve(model_encoder, originals, encodings, search_img_dir, target_size=(32,32), n=5):
+    # get cluster labels
+    labels = kmeans_clf.predict(list(encodings.values()))
 
-    # fit knn model to encodings
-    nbrs = NearestNeighbors(n_neighbors=n).fit(encodings)
+    # create a dict of filename and cluster label
+    clusters = dict(zip(list(encodings.keys()), labels))
+
+    # create a new dict that has filename, label, and encoding
+    # format {filename: [encoding], label]}
+    db  = {}
+    for key in (encodings.keys() | clusters.keys()):
+        if key in encodings: db.setdefault(key, []).append(encodings[key])
+        if key in clusters: db.setdefault(key, []).append(clusters[key])
+
+    print(db)
+
+    return kmeans_clf, db
+    
+# returns similar images by first using kmeans to find images belonging the cluster
+# then using knn to retrieve most similar images
+def retrieve(model_encoder, db, kmeans_clf, search_img_dir, target_size=(32,32), n=6):
 
     # load search img and rescale, this generator wil contain only the search img
     datagen=ImageDataGenerator(rescale=1./255.)
-    
+   
     search_img=datagen.flow_from_directory(
         directory=search_img_dir,
         batch_size=1,
@@ -196,26 +220,41 @@ def retrieve(model_encoder, originals, encodings, search_img_dir, target_size=(3
         shuffle=False,
         class_mode=None,
         target_size=target_size)
-
+    
     encoded_search_img = model_encoder.predict(search_img[0])
     squeezed = np.squeeze(encoded_search_img,axis=0)
     # stack twice to reduce dimensions from (x, x, x) to (x,) then reshape to (1,x)
     reshaped_search_img = np.hstack(np.hstack(squeezed)).reshape(1,-1)  
 
+    # get the cluster the search image belongs to
+    label = kmeans_clf.predict(encoded_search_img.reshape(encoded_search_img.shape[0],-1))
+    label = label[0]
+
+    # build dict of encodings based on images in the cluster
+    encodings = {}
+    for key, value in db.items():
+
+        # value[0] are encodings, value[1] are clusters
+        if value[1] == label:
+            encodings[key] = value[0]
+
+
+    print(len(encodings), ' images in this cluster.')
+
+    # fit knn model to encodings
+    nbrs = NearestNeighbors(n_neighbors=n).fit(list(encodings.values()))
+
     # retrieve nearest images
     distances, indices = nbrs.kneighbors(reshaped_search_img)
+    print(indices)
 
     # later add distances cutoff here
 
-
-
-    print('Retrieved clothing items ' + str(indices) + ' as nearest match.')
-    print('Returning most similar image...')
-    retrieved = originals[indices[0][0]]
-    return retrieved
+    return_imgs = []
+    for i in indices[0]:
+        #print('Retrieved clothing items ' + str(list(encodings.keys())[i]) + ' as nearest match.')
+        return_imgs.append(list(encodings.keys())[i])
 
        
-
-#df, class_list, dense_output = load_data('/Users/julieshih/workspace/Springboard/paths.csv')
-#train_generator, valid_generator, test_generator = split_data(df, directory='/Users/julieshih/workspace/Springboard/', target_size=(32,32))
+    return return_imgs
 

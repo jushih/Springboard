@@ -9,10 +9,11 @@ RUN apt-get update && \
 
 RUN mkdir -p /fashion/src/models/
 RUN mkdir -p /fashion/src/processing/
+RUN mkdir -p /fashion/src/templates/
+RUN mkdir -p /fashion/src/uploads/img/
 RUN mkdir -p /fashion/models/
 RUN mkdir -p /fashion/data/img/
 RUN mkdir -p /fashion/data/Anno/
-RUN mkdir -p /fashion/data/search_img/
 
 COPY . /fashion/
 RUN chmod +x **/*.py
@@ -20,8 +21,10 @@ RUN chmod +x **/*.py
 # install required packages
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     pip3 install cycler==0.10.0 \
+    Flask==1.0.3 \
     h5py==2.9.0 \
     imageio==2.5.0 \
+    jsonpickle==1.2 \
     Keras==2.2.4 \
     Keras-Applications==1.0.7 \
     Keras-Preprocessing==1.0.9 \
