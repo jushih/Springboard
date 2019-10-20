@@ -11,7 +11,7 @@ import re
 import json
 import jsonpickle
 import tensorflow as tf
-from flask import Flask, request, render_template, send_from_directory, Response
+from flask import Flask, request, render_template, send_from_directory, Response, send_file
 from keras import backend as K
 
 K.clear_session()
@@ -34,9 +34,6 @@ with open(model_dir+'vgg_closet', 'rb') as ef:
 with open(model_dir+'vgg_kmeans.joblib', 'rb') as kf:  
     kmeans_clf = joblib.load(kf)
 
-
-
-search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/'
 
 #app = Flask(__name__, static_folder='/Users/julieshih/workspace/Springboard/data/img',root_path='src/')
 app = Flask(__name__, static_folder='/',root_path='src')
@@ -69,7 +66,6 @@ def upload():
 
         print(destination, upload_dir)
 
-        print(encoder)
         # generate prediction and return similar images
         retrieved = retrieve(encoder, db, kmeans_clf, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
        
@@ -81,12 +77,17 @@ def upload():
             
         print(filenames)
 
-        response = {}
-        response['retrieved'] = filenames
-        response_pickled = jsonpickle.encode(response)
+#        response = {}
+#        response['retrieved'] = filenames
+#        response_pickled = jsonpickle.encode(response)
 
-        return Response(response=response_pickled, status=200, mimetype="application/json")
-
+#        return Response(response=response_pickled, status=200, mimetype="application/json")
+       
+        # return the retrieved image
+        # take second image in case first one is the same
+        for filename in filenames[1:]:
+            img_path = img_dir+filename
+            return send_file(img_path, mimetype='image/gif')
 
 @app.route('/src/uploads/img/<filename>')
 def send_image(filename):

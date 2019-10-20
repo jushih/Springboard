@@ -34,9 +34,6 @@ with open(model_dir+'vgg_kmeans.joblib', 'rb') as kf:
     kmeans_clf = joblib.load(kf)
 
 
-
-search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/'
-
 app = Flask(__name__, static_folder='/Users/julieshih/workspace/Springboard/data/img',root_path='src/')
 
 # define apps home page

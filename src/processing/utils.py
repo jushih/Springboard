@@ -17,7 +17,7 @@ def set_paths(loc):
         img_dir = '/Users/julieshih/workspace/Springboard/data/img/'
         metadata_dir = '/Users/julieshih/workspace/Springboard/data/Anno/'
         model_dir = '/Users/julieshih/workspace/Springboard/models/'
-        search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/img/'
+        search_img_dir = '/Users/julieshih/workspace/Springboard/src/uploads/'
         return img_dir, metadata_dir, model_dir, search_img_dir
 
     if loc == "docker":
@@ -26,7 +26,6 @@ def set_paths(loc):
         model_dir = '/fashion/models/'
         search_img_dir = 'fashion/data/search_img/'
         return img_dir, metadata_dir, model_dir, search_img_dir
-
 
     if loc == "colab":
         img_dir = '/content/gdrive/My Drive/data/img/'
