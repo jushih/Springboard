@@ -11,7 +11,7 @@ The algorithm powering the app was constructed by:
 
 The training data was obtained from The Chinese University of Hong Kong’s DeepFashion Attribute Prediction database. It consists of 289,222 images from 50 clothing categories. In this project, I will use the 71,314 dress images for training the model. These dresses will also serve as the "in-store" database that the web app will search and retrieve from.
 
-# File Structure
+## Project File Structure
 
 ```
 README.md
@@ -44,19 +44,20 @@ requirements.txt
 
 ```
 
-**train.py** - trains the autoencoder model
-**encode.py** - generates the image embeddings using the encoder part of the autoencoder
-**app.py** - launches the web app where users can upload an image
-**api.py** - launches the API
-**data** - contains a sample of the training images
-**models** - contains the trained models and image embeddings
-**src/exploration** - initial exploration of the image dataset
-**src/processing** - helper code to prep the dataset, run the model, and configure model parameters
-**src/models** - specifies the model architecture
-**src/scraper** - code to scrape more image data
-**src/templates** - contains the html pages served by the web app
+### Description
+* **train.py** - trains the autoencoder model
+* **encode.py** - generates the image embeddings using the encoder part of the autoencoder
+* **app.py** - launches the web app where users can upload an image
+* **api.py** - launches the API
+* **data/** - contains a sample of the training images
+* **models/** - contains the trained models and image embeddings
+* **src/exploration** - initial exploration of the image dataset
+* **src/processing** - helper code to prep the dataset, run the model, and configure model parameters
+* **src/models** - specifies the model architecture
+* **src/scraper** - code to scrape more image data
+* **src/templates** - contains the html pages served by the web app
 
-# API
+## API
 
 ```
 # launches the API
