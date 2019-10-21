@@ -1,5 +1,7 @@
 # Dress Retrieval App
 
+<img src="https://github.com/jushih/Springboard/blob/master/src/templates/webapp.png" width="700"/>
+
 The goal of this project is to build an image search app that can retrieve similar-looking dresses based on an existing image of a dress. To improve sales, imagine that a retailer wants their website to show users dresses similar to the one they've currently selected. Or imagine that a user has found or taken a picture of a dress they like and wants to buy something similar. With this Dress Retrieval App, users can upload a photo of their favorite dress and the app will return similar dresses available in stores. 
 
 The algorithm powering the app was constructed by:
