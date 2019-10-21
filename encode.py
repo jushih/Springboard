@@ -33,20 +33,20 @@ print('Generating encodings...')
 # using the trained model, encode all clothing images for later use in knn retrieval
 encodings = clothes_db(model_encoder=encoder,inventory_generator=inventory_generator, df=df)
 
-with open(model_dir+'vgg_encodings', 'wb') as f:
+with open(model_dir+'cnn_encodings', 'wb') as f:
     pickle.dump(encodings, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-#with open(model_dir+'vgg_encodings', 'rb') as ef:
+#with open(model_dir+'cnn_encodings', 'rb') as ef:
 #     encodings = pickle.load(ef)
 
 print('Clustering...')
 kmeans_clf, db = cluster(encodings)
 
 print('Saving kmeans classifer...')
-dump(kmeans_clf,model_dir+'vgg_kmeans.joblib')
+dump(kmeans_clf,model_dir+'cnn_kmeans.joblib')
 
 print('Saving dict of encodings and clusters...')
-with open(model_dir+'vgg_closet', 'wb') as f:
+with open(model_dir+'cnn_closet', 'wb') as f:
     pickle.dump(db, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 

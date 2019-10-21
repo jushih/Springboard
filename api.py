@@ -27,11 +27,11 @@ encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_output_at(0))
 
 graph = tf.get_default_graph()
 
-with open(model_dir+'vgg_closet', 'rb') as ef:   
+with open(model_dir+'cnn_closet', 'rb') as ef:   
      db = pickle.load(ef)
 
 # load kmeans model
-with open(model_dir+'vgg_kmeans.joblib', 'rb') as kf:  
+with open(model_dir+'cnn_kmeans.joblib', 'rb') as kf:  
     kmeans_clf = joblib.load(kf)
 
 

@@ -26,11 +26,11 @@ encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_output_at(0))
 
 graph = tf.get_default_graph()
 
-with open(model_dir+'vgg_closet', 'rb') as ef:   
+with open(model_dir+'cnn_closet', 'rb') as ef:   
      db = pickle.load(ef)
 
 # load kmeans model
-with open(model_dir+'vgg_kmeans.joblib', 'rb') as kf:  
+with open(model_dir+'cnn_kmeans.joblib', 'rb') as kf:  
     kmeans_clf = joblib.load(kf)
 
 
@@ -66,7 +66,7 @@ def upload():
 
         print(encoder)
         # generate prediction and return similar images
-        retrieved = retrieve(encoder, db, kmeans_clf, search_img_dir, target_size=cfg.IMAGE_SIZE, n=5)
+        retrieved = retrieve(encoder, db, kmeans_clf, search_img_dir, target_size=cfg.IMAGE_SIZE, n=6)
        
         print(retrieved)
         
@@ -84,5 +84,5 @@ def send_image(filename):
 
 
 if __name__ == "__main__":
-    app.run(port=3000, debug=True)
+    app.run(port=2000, debug=True)
 
