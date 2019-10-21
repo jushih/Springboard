@@ -19,12 +19,9 @@ The training data was obtained from The Chinese University of Hong Kong’s Deep
 README.md
 data
 ├── img
-│   ├── folders
 models
 src
 ├── exploration
-│   ├── exploration_attributes.ipynb
-│   └── exploration_landmark.ipynb
 ├── processing
 │   ├── config.py
 │   └── utils.py
@@ -32,17 +29,14 @@ src
 │   ├── cnn_3L.py
 │   ├── vgg.py
 ├── scraper
-│   ├── full_scraper.py
-│   ├── scraper.ipynb
-│   └── scraper.py
 └── templates
     ├── index.html
     └── result.html
+api.py
 app.py
 train.py
 encode.py
 Dockerfile
-requirements.txt
 
 ```
 
@@ -69,7 +63,17 @@ python3 api.py
  curl -X POST -F "file=@/path/to/dress.jpg" http://127.0.0.1:2000/upload -o retrieved_dress.jpg
 ```
 
-# References
+## Model Architecture
+
+<img src="https://github.com/jushih/Springboard/blob/master/src/templates/autoencoder.png" width="700"/>
+
+<sub>*Fig 1. "Autoencoders — Deep Learning bits #1" by Julien Despois.* https://hackernoon.com/autoencoders-deep-learning-bits-1-11731e200694</sub>
+
+## References and Special Thanks
+
+This app was completed as a capstone project for Springboard's AI & Machine Learning Career Track with special thanks to the counsel provided by my mentor Yevgeny Tkach.
+
+Despois, Julien. "Autoencoders — Deep Learning bits #1" https://hackernoon.com/autoencoders-deep-learning-bits-1-11731e200694. Accessed 20 October 2019.
 
 Large-scale Fashion (DeepFashion) Database - http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
 
