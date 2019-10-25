@@ -63,11 +63,23 @@ python3 api.py
  curl -X POST -F "file=@/path/to/dress.jpg" http://127.0.0.1:2000/upload -o retrieved_dress.jpg
 ```
 
-## Model Architecture
+## CNN Model Architecture
 
 <img src="https://github.com/jushih/Springboard/blob/master/src/templates/autoencoder.png" width="700"/>
 
 <sub>*Fig 1. "Autoencoders — Deep Learning bits #1" by Julien Despois.* https://hackernoon.com/autoencoders-deep-learning-bits-1-11731e200694</sub>
+
+A 3-layer CNN Autoencoder was trained on the dress images. An autoencoder model consists of two parts, an encoder piece that downsamples the image to a create low-dimensional representation of it, and a decoder piece that upsamples the representation to recreate the original image. In effect, it creates a simpler "encoding" of the image that can be used for faster KNN image retrieval. 
+
+## Image Retrieval
+
+Image retrieval consists of a few steps. 
+
+1. The search image is run through the encoder to generate its encoding.
+2. A k-means clustering model is applied to the encoding to sort it into one of 10 clusters. 
+3. A K-Nearest Neighbor model is used to identify the most similar images within its cluster.
+
+Originally, the app was built without the k-means clustering step, but due to the size of the image database, the search was taking 40-50 seconds to complete. With the additional clustering step, the search only takes 3-5 seconds to complete.
 
 ## References and Special Thanks
 
