@@ -91,9 +91,9 @@ def upload():
 
 @app.route('/src/uploads/img/<filename>')
 def send_image(filename):
-    return send_from_directory('/Users/julieshih/workspace/Springboard/src/uploads/img/', filename)
+    return send_from_directory(search_img_dir+'/img/', filename)
 
 
 if __name__ == "__main__":
-    app.run(port=2000, debug=True)
+    app.run(port=3000, debug=True)
 

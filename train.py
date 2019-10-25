@@ -38,13 +38,3 @@ model.fit( train_generator,
 print(model.model.summary())
 model.save(model_dir)
 
-# using the trained model, encode all clothing images for later use in knn retrieval
-#originals, encodings = clothes_db(model_encoder=vgg.encoder,inventory_generator=inventory_generator, df=df)
-
-#with open(model_dir+'vgg_encoded_closet', 'wb') as f:
-#    pickle.dump(encodings, f)
-
-#with open(model_dir+'vgg_original_closet', 'wb') as f:
-#    pickle.dump(originals, f)
-
-#print(encodings)

@@ -33,8 +33,7 @@ with open(model_dir+'cnn_closet', 'rb') as ef:
 with open(model_dir+'cnn_kmeans.joblib', 'rb') as kf:  
     kmeans_clf = joblib.load(kf)
 
-
-app = Flask(__name__, static_folder='/Users/julieshih/workspace/Springboard/data/img',root_path='src/')
+app = Flask(__name__, static_folder=img_dir[:-1],root_path='src/')
 
 # define apps home page
 @app.route('/')
@@ -80,7 +79,7 @@ def upload():
 
 @app.route('/src/uploads/img/<filename>')
 def send_image(filename):
-    return send_from_directory('/Users/julieshih/workspace/Springboard/src/uploads/img/', filename)
+    return send_from_directory(search_img_dir+'/img/', filename)
 
 
 if __name__ == "__main__":

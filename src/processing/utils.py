@@ -24,7 +24,7 @@ def set_paths(loc):
         img_dir = '/fashion/data/img/'
         metadata_dir = '/fashion/data/Anno/'
         model_dir = '/fashion/models/'
-        search_img_dir = 'fashion/data/search_img/'
+        search_img_dir = 'fashion/src/uploads/'
         return img_dir, metadata_dir, model_dir, search_img_dir
 
     if loc == "colab":
